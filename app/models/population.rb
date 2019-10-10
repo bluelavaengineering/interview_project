@@ -6,18 +6,9 @@ class Population < ApplicationRecord
 
   def self.get(year)
     year = year.to_i
-
     return 0 if year < min_year
-
-    pop = nil
-    until pop
-      pop = Population.find_by_year(Date.new(year))
-      year = year - 1
-    end
-
-    return pop.population if pop
-
-    nil
+    pop = Population.where("year <= ?", Date.new(year)).order(year: :desc).limit(1).first
+    pop.population if pop
   end
 
 end
