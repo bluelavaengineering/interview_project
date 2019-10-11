@@ -34,12 +34,15 @@ module Service
         # This needs a refactor to get rid of the hard coded years
         if year <= 1990
           diff = (top.to_f * guess_by).to_i
-          diff >=1 ? bottom + diff.floor : bottom
+          pop = diff >=1 ? bottom + diff.floor : bottom
+          log(request_type: diff >= 1 ? :exact : :calculated, year: year, population: pop)
         elsif year >= 1991
           requested_year = year
           @year = 1990
-          forcast(inital_population: top, target: requested_year)
+          pop = forcast(inital_population: top, target: requested_year)
+          log(request_type: :calculated, year: requested_year, population: pop)
         end
+        return pop
       end
 
       def forcast(inital_population:, rate: 0.009, target: 2020)
@@ -48,5 +51,10 @@ module Service
         f = BigDecimal(inital_population)*(1+rate)**interval
         f.to_i
       end
+
+      def log(**options)
+        Logging::Record.call(request_type: options.request_type, year: options.year, population: options.population )
+      end
+
   end
 end
