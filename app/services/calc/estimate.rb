@@ -52,8 +52,8 @@ module Service
         f.to_i
       end
 
-      def log(**options)
-        Logging::Record.call(request_type: options.request_type, year: options.year, population: options.population )
+      def log(**vals)
+        Logging::Record.call(vals[:request_type], vals[:year], vals[:population])
       end
 
   end

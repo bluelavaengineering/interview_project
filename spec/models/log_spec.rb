@@ -20,4 +20,13 @@ RSpec.describe Log, type: :model do
     it { should define_enum_for(:request_type) }
   end
 
+  context "use" do
+    let(:line) { FactoryBot.create(:log) }
+
+    it "should have a single record" do
+      pp "line: #{line.inspect}"
+      expect(Log.all.count).to eq 1
+    end
+  end
+
 end
