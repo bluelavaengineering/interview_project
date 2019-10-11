@@ -7,8 +7,7 @@ class Population < ApplicationRecord
   def self.get(year)
     year = year.to_i
     return 0 if year < min_year
-    pop = Population.where("year <= ?", Date.new(year)).order(year: :desc).limit(1).first
-    pop.population if pop
+    Calc::Estimate.call(year)
   end
 
 end
