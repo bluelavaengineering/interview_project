@@ -35,10 +35,18 @@ module Service
         if year <= 1990
           diff = (top.to_f * guess_by).to_i
           diff >=1 ? bottom + diff.floor : bottom
-        else
+        elsif year >= 1991
+          requested_year = year
           @year = 1990
-          top
+          forcast(inital_population: top, target: requested_year)
         end
+      end
+
+      def forcast(inital_population:, rate: 0.009, target: 2020)
+        target = target > 2500 ? 2500 : target
+        interval = target - 1990
+        f = BigDecimal(inital_population)*(1+rate)**interval
+        f.to_i
       end
   end
 end
