@@ -1,11 +1,13 @@
 <h1>Reqest Log</h1>
 <table>
   <th>
+    <td>Request Type</td>
     <td>Year</td>
     <td>Population</td>
   </th>
   <%= @logs.each do |log| %>
     <tr>
+      <td><%= log.request_type %></td>
       <td><%= log.year %></td>
       <td><%= log.population %></td>
     </tr>
