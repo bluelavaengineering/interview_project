@@ -36,6 +36,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Install rspec for testing
   gem 'rspec-rails', '~> 3.8'
+  # Adding some tools that I typically use for testing
+  gem 'faker'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -49,6 +52,8 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  # added shoulda, cause its 50 year old scotch
+  gem 'shoulda-matchers', '~> 3.0', require: false 
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
