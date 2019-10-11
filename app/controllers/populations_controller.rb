@@ -3,7 +3,7 @@ class PopulationsController < ApplicationController
   end
 
   def show
-    @year = params[:year].html_escape
+    @year = params[:year].html_safe
     @population = Population.get(@year)
     respond_to do |format|
       format.js { render :results }
