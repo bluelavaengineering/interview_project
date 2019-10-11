@@ -10,14 +10,14 @@ module Service
     end
 
     def call
-      create_entry(year: @year, population: @population, request_type: @request_type)
+      create_entry(request_type: @request_type, year: @year, population: @population)
     end
 
     private
-      def create_entry(year:, population:, request_type:)
+      def create_entry(request_type:, year:, population:)
         begin
           Log.transaction do
-            Log.create!(year, population, request_type)
+            Log.create!(request_type, year, population)
             raise ActiveRecord::Rollback
           end
         rescue ActiveRecord::RecordInvalid => invalid

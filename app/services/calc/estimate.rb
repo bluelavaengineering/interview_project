@@ -35,7 +35,7 @@ module Service
         if year <= 1990
           diff = (top.to_f * guess_by).to_i
           pop = diff >=1 ? bottom + diff.floor : bottom
-          log(request_type: diff >= 1 ? :exact : :calculated, year: year, population: pop)
+          log(request_type: diff >= 1 ? :calculated : :exact, year: year, population: pop)
         elsif year >= 1991
           requested_year = year
           @year = 1990
