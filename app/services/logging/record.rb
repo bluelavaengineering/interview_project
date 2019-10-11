@@ -1,22 +1,23 @@
 module Service
   class Logging::Record
     include Common::Service
-    attr_reader :year, :population
+    attr_reader :year, :population, :request_type
 
     def initialize
       @year = year
       @population = population
+      @request_type = request_type
     end
 
     def call
-      create_entry(year: @year, population: @population)
+      create_entry(year: @year, population: @population, request_type: @request_type)
     end
 
     private
-      def create_entry(year:, population:)
+      def create_entry(year:, population:, request_type:)
         begin
           Log.transaction do
-            Log.create!(year, population)
+            Log.create!(year, population, request_type)
             raise ActiveRecord::Rollback
           end
         rescue ActiveRecord::RecordInvalid => invalid
