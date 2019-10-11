@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_24_180609) do
+ActiveRecord::Schema.define(version: 2019_10_11_094559) do
+
+  create_table "logs", force: :cascade do |t|
+    t.integer "year", null: false
+    t.bigint "population", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["year"], name: "index_logs_on_year"
+  end
 
   create_table "populations", force: :cascade do |t|
     t.date "year"
