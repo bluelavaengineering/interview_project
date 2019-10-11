@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LogController, type: :controller do
+RSpec.describe LogsController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do
