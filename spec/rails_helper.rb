@@ -31,21 +31,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-require "selenium/webdriver"
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
-end
-Capybara.register_driver :insecure_chrome do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(disable-gpu disable-web-security disable-xss-auditor) }
-  )
-
-  Capybara::Selenium::Driver.new app,
-    browser: :chrome,
-    desired_capabilities: capabilities
-end
-Capybara.javascript_driver = :insecure_chrome
-
+require 'config/capybara_driver'
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -54,7 +40,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  #config.use_transactional_fixtures = true
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -76,11 +62,17 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  config.before(:suite) do
-    Rails.application.load_seed # loading seeds
-  end
-
   config.before(:each, type: :system, js: true) do
     driven_by :insecure_chrome
   end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
+
+require 'config/database_cleaner'

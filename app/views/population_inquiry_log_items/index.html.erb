@@ -1,0 +1,22 @@
+<h1>Population Query Log</h1>
+
+<table class="population_inquiry_log_items__table">
+  <thead>
+    <tr>
+      <th>When</th>
+      <th>Year Input</th>
+      <th>Status</th>
+      <th>Population Response</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% log_items.each do |log_item| %>
+      <tr>
+        <td><%= time_ago_in_words(log_item.created_at) %> ago</td>
+        <td><%= log_item.request_year_raw %></td>
+        <td><%= log_item.response_status.humanize %></td>
+        <td><%= log_item.response_population %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

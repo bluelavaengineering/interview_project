@@ -9,3 +9,12 @@ Population.create(year: Date.new(1960), population: 179_323_175)
 Population.create(year: Date.new(1970), population: 203_302_031)
 Population.create(year: Date.new(1980), population: 226_542_199)
 Population.create(year: Date.new(1990), population: 248_709_873)
+
+# REFACTOR: FactoryBot would be more appropriate here, so that this object is created in the relevant test. You
+# can break out different items by success/failed as factory traits.
+PopulationInquiryLogItem.create!(
+  request_year_raw: 1800,
+  request_valid_year: 1800,
+  response_status: PopulationInquiryLogItem::RESPONSE_STATUS_SUCCESS,
+  response_population: 31337, # magic value for use in tests
+)
