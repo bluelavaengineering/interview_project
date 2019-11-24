@@ -13,16 +13,15 @@ RSpec.describe Population, type: :model do
     expect(Population.at_year(-1000)).to eq(0)
   end
 
-  it "should accept a year that is after latest known and return the last known population" do
-    expect(Population.at_year(2000)).to eq(248709873)
-    expect(Population.at_year(200000)).to eq(248709873)
-  end
-
-  it "linearly extrapolate population for years in which data is missing" do
+  it "linearly extrapolates population for years inside of our known range" do
     expect(Population.at_year(1955)).to eq(165324487)
     expect(Population.at_year(1902)).to eq(79415434)
     expect(Population.at_year(1908)).to eq(89025230)
   end
 
+  it "extrapolates population by exponential growth for years in which data is missing" do
+    expect(Population.at_year(1991)).to eq(271093762)
+    expect(Population.at_year(2099)).to eq(2986629161671)
+  end
 
 end
