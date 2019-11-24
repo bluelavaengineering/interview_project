@@ -22,4 +22,17 @@ RSpec.describe "Get population by year", type: :system do
       assert_text "Population: 179323175"
     end
   end
+
+  describe "Security" do
+    describe "When evil party sends user to URL with XSS injection" do
+      before(:each) do
+        visit '/populations/by_year?year="><script>window._canary_state=true</script>&'
+      end
+
+      it "should not have compromised front-end" do
+        canary_state = page.evaluate_script('window._canary_state')
+        expect(canary_state).to be_nil
+      end
+    end
+  end
 end
