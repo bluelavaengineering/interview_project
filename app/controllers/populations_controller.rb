@@ -4,6 +4,6 @@ class PopulationsController < ApplicationController
 
   def show
     @year = params[:year].html_safe
-    @population = Population.population_at_or_before_year(@year)
+    @population = Population.at_year(@year)
   end
 end
