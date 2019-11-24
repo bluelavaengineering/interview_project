@@ -1,0 +1,3 @@
+$('.populations_index__result').html(
+  <%= JSON.dump(render partial: 'result', locals: { population_inquiry_form: population_inquiry_form, population: population }).html_safe %>
+)
