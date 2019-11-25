@@ -10,13 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_24_180609) do
+ActiveRecord::Schema.define(version: 2019_11_25_023440) do
 
-  create_table "populations", force: :cascade do |t|
-    t.date "year"
-    t.bigint "population"
+  create_table "population_inquiry_log_items", force: :cascade do |t|
+    t.string "request_year_raw", null: false
+    t.integer "request_valid_year"
+    t.string "response_status", null: false
+    t.string "response_population"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "calculation_type"
+  end
+
+  create_table "populations", force: :cascade do |t|
+    t.integer "population"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "year_number", null: false
   end
 
 end

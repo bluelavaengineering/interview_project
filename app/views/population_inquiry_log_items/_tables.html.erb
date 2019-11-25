@@ -1,0 +1,47 @@
+<h1>Population Query Log</h1>
+
+<table class="population_inquiry_log_items__table">
+  <thead>
+  <tr>
+    <th>When</th>
+    <th>Year Input</th>
+    <th>Status</th>
+    <th>Calculation Type</th>
+    <th>Population Response</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% log_items.each do |log_item| %>
+    <tr>
+      <td><%= time_ago_in_words(log_item.created_at) %> ago</td>
+      <td><%= log_item.request_year_raw %></td>
+      <td><%= log_item.response_status.humanize %></td>
+      <td><%= log_item.calculation_type.try(:humanize) %></td>
+      <td><%= log_item.response_population %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h1>Years With Exact Query count</h1>
+
+<table class="population_inquiry_log_items__table">
+  <thead>
+  <tr>
+    <th>Year</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% year_to_query_count.each do |(year, query_count)| %>
+    <tr>
+      <td><%= year %></td>
+      <td><%= query_count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<p>
+  <em>Data recent as of <%= I18n.l(DateTime.now) %></em>
+</p>

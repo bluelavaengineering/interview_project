@@ -1,0 +1,10 @@
+<% if population_inquiry_form.valid?  %>
+  <h3>You requested the population for: <%= population_inquiry_form.year_number %></h3>
+  <p>Population: <%= population %></p>
+<% else %>
+  <%# Let them solve one issue at a time. %>
+  <p>Sorry. <%= population_inquiry_form.errors.full_messages.first %>.</p>
+  <p>
+    Please re-submit your query.
+  </p>
+<% end %>

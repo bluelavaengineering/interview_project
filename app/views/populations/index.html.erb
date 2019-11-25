@@ -1,5 +1,29 @@
-<h1>Get your population numbers here</h1>
-<form method="get" action="populations/by_year">
-  <input name="year" />
-  <button type="submit">Submit</button>
-</form>
+<div class="populations_index">
+  <h1>Get your population numbers here</h1>
+
+  <%= form_for PopulationInquiryForm.new, url: populations_by_year_path,  method: 'get', remote: true do |f| %>
+    <div>
+      <%= f.label :year_number, 'Year:' %>
+      <%= f.text_field :year_number, class: 'populations_index--year'  %>
+    </div>
+
+    <div class="populations_index__radio" data-furthest-known-year="<%= furthest_year %>">
+      <p>
+        How do you want to derive growth beyond the furthest known year?
+      </p>
+      <%= f.radio_button :growth_model, 'logistic', checked: true %>
+      <%= f.label :growth_model, 'Use logistic model', value: 'logistic' %>
+
+      <%= f.radio_button :growth_model, 'exponential', checked: false %>
+      <%= f.label :growth_model, 'Use exponential model', value: 'exponential' %>
+    </div>
+
+    <div>
+      <%= f.submit 'Submit' %>
+    </div>
+  <% end %>
+
+  <div class="populations_index__result">
+  </div>
+
+</div>
