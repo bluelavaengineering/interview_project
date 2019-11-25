@@ -23,10 +23,9 @@ RSpec.describe PopulationsController, type: :controller do
     end
 
     it "returns a population for a date" do
-      year = 1900
-      get :show, format: :js, xhr: true, params: { population_inquiry_form: { year_number: year } }
+      get :show, format: :js, xhr: true, params: { population_inquiry_form: { year_number: "1900" } }
       expect(response.content_type).to eq "text/javascript"
-      expect(response.body).to match /Population: #{Population.at_year(year)}/im
+      expect(response.body).to match /Population: #{76212168}/im
     end
   end
 end

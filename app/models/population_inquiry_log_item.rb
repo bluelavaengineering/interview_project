@@ -10,10 +10,15 @@ class PopulationInquiryLogItem < ApplicationRecord
   validates :request_year_raw, presence: true, allow_blank: true
 
   validates :response_status, presence: true, inclusion: {in: [ RESPONSE_STATUS_SUCCESS, RESPONSE_STATUS_FAILED ]}
+  validates :calculation_type, presence: true, inclusion: {in: [
+      ::PopulationLookup::Response::RESPONSE_TYPE_CALCULATED,
+      ::PopulationLookup::Response::RESPONSE_TYPE_EXACT ]
+    }, if: -> { calculation_type.present? }
 
   # If the response was a success, it must follow that we captured a valid year & returned population
   validates :request_valid_year, presence: true, if: :success?
   validates :response_population, presence: true, if: :success?
+  validates :calculation_type, presence: true, if: :success?
 
   def success?
     response_status == RESPONSE_STATUS_SUCCESS

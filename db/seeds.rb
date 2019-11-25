@@ -17,4 +17,5 @@ PopulationInquiryLogItem.create!(
   request_valid_year: 1800,
   response_status: PopulationInquiryLogItem::RESPONSE_STATUS_SUCCESS,
   response_population: 31337, # magic value for use in tests
+  calculation_type: PopulationLookup::Response::RESPONSE_TYPE_EXACT
 )

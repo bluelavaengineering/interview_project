@@ -7,8 +7,9 @@ class PopulationsController < ApplicationController
 
   def show
     if population_inquiry_form.valid?
-      @population = Population.at_year(population_inquiry_form.year_number)
-      log_successful_reply
+      result = ::PopulationLookup::BaseService.lookup_by_year(population_inquiry_form.year_number)
+      @population = result.population
+      log_successful_reply(result)
     else
       log_failed_reply
     end
@@ -20,13 +21,14 @@ class PopulationsController < ApplicationController
 
   private
 
-  def log_successful_reply
+  def log_successful_reply(population_lookup_result)
     raise "illegal state" if population.nil?
     PopulationInquiryLogItem.create!(
       request_year_raw: population_inquiry_form.year_number,
       request_valid_year: population_inquiry_form.year_number,
       response_status: PopulationInquiryLogItem::RESPONSE_STATUS_SUCCESS,
       response_population: population,
+      calculation_type: population_lookup_result.response_type
     )
   end
 
@@ -36,6 +38,7 @@ class PopulationsController < ApplicationController
       request_valid_year: nil,
       response_status: PopulationInquiryLogItem::RESPONSE_STATUS_FAILED,
       response_population: nil,
+      calculation_type: nil
     )
   end
 
