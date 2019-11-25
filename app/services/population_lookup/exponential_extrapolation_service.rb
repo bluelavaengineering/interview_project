@@ -26,7 +26,7 @@ module PopulationLookup
     def call
       x_0 = latest_known_pop.population
       r = EXPONENTIAL_GROWTH_RATE
-      t = year - latest_known_pop.year.year
+      t = year - latest_known_pop.year_number
       x_t = x_0 * ((1 + r) ** t)
 
       return x_t.round
@@ -35,7 +35,7 @@ module PopulationLookup
     private
 
     def latest_known_pop
-      @_latest_known_pop ||= Population.order(:year).last
+      @_latest_known_pop ||= Population.order(:year_number).last
     end
   end
 end

@@ -22,3 +22,22 @@
     <% end %>
   </tbody>
 </table>
+
+<h1>Years With Exact Query count</h1>
+
+<table class="population_inquiry_log_items__table">
+  <thead>
+  <tr>
+    <th>Year</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% year_to_query_count.each do |(year, query_count)| %>
+    <tr>
+      <td><%= year %></td>
+      <td><%= query_count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
