@@ -1,19 +1,28 @@
 module PopulationLookup
   class BaseService
 
-    def self.lookup_by_year(year)
+    def self.lookup_by_year(year, growth_model=:exponential)
       year = year.to_i
 
       # Case 1: Query is for a year that comes before those we have data for
       earliest_year = Population.minimum(:year_number)
       return Response.new(Response::RESPONSE_TYPE_CALCULATED, 0) if year < earliest_year
 
-      # Case 2: Query is for a year that is after those we have data for
+      # Case 2: Query is for a year that is after those we have data for, so we need
+      # to use a growth model
       latest_year = Population.maximum(:year_number)
       if year > latest_year
-        return Response.new(
-          Response::RESPONSE_TYPE_CALCULATED,
-          ExponentialExtrapolationService.new(year).call)
+        if growth_model == :exponential
+          return Response.new(
+            Response::RESPONSE_TYPE_CALCULATED,
+            ExponentialExtrapolationService.new(year).call)
+        elsif growth_model == :logistic
+          return Response.new(
+            Response::RESPONSE_TYPE_CALCULATED,
+            LogisticExtrapolationService.new(year).call)
+        else
+          raise ArgumentError, "illegal growth model: #{growth_model_preference}"
+        end
       end
 
       # Case 3: Query is for a year we have data for

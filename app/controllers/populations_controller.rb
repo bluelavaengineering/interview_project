@@ -1,13 +1,16 @@
 class PopulationsController < ApplicationController
-  attr_reader :population
-  helper_method :population, :population_inquiry_form
+  attr_reader :population, :furthest_year
+  helper_method :population, :population_inquiry_form, :furthest_year
 
   def index
+    @furthest_year = Population.maximum(:year_number)
   end
 
   def show
     if population_inquiry_form.valid?
-      result = ::PopulationLookup::BaseService.lookup_by_year(population_inquiry_form.year_number)
+      result = ::PopulationLookup::BaseService.lookup_by_year(
+        population_inquiry_form.year_number,
+        population_inquiry_form.growth_model.to_sym)
       @population = result.population
       log_successful_reply(result)
     else
@@ -47,6 +50,6 @@ class PopulationsController < ApplicationController
   end
 
   def population_inquiry_form_params
-    params[:population_inquiry_form].permit(:year_number)
+    params[:population_inquiry_form].permit(:year_number, :growth_model)
   end
 end

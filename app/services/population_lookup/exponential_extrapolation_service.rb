@@ -1,8 +1,8 @@
 module PopulationLookup
   class ExponentialExtrapolationService
-    attr_reader :year
-
     EXPONENTIAL_GROWTH_RATE = 0.09
+
+    attr_reader :year
 
     def initialize(year)
       @year = year

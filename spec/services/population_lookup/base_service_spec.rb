@@ -56,5 +56,4 @@ RSpec.describe PopulationLookup::BaseService, type: :unit do
     get_response(year).population
   end
 
-
 end
